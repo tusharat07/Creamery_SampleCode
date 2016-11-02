@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Angular Material style sheet -->
+    <title>Talluri's Creamery</title>
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-aria.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-messages.min.js"></script>
+
+    <!-- Angular Material Library -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script>
+    <script src="app.js"></script>
+    <style>
+    .iceCream{
+        /*background: url(C:/Users/pasalasa/Downloads/icecream.jpg) center;*/
+    }
+    md-select{
+        width: 50%;
+    }
+    .md-tab{
+        font-size: 22px !important;
+        color: #7F0443 !important;
+    }
+   md-tabs.md-default-theme md-ink-bar, md-tabs md-ink-bar {
+        color: #3F51B5 !important;
+        background-color: #3F51B5 !important;
+    }
+   md-tabs .md-tab.md-active{
+       color: White !important;
+       background: #7F0443;
+   }
+    </style>
+    </head>
+<body ng-app="tscoops" ng-cloak>
+    <div layout flex>
+        <img height="200" style="width: 100%" src="img/talluris3.png" />
+    </div>
+    <div layout flex>
+        <md-content flex>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="Home" flex>
+                    <md-content class="md-padding" >
+                        <h1 class="md-display-2">Welcome to Talluri's Creamery !!</h1>
+                    <h3>We Are a Family owned creamery. Our famous products include....</h3> 
+                    <ol>
+                        <li>
+                        <h4>Signature Home Made Ice Creams</h4>
+                        <img src="img/ice.jpg" width="1255" alt="Ice Creams"/>
+                        </li>
+                        <li>
+                            <h4>Milk Shakes</h4>
+                            <img src="img/shakes.jpg" alt="Milk Shakes" />
+                        </li>
+                        <li>
+                            <h4>Floats</h4>
+                            <img src="img/floats.jpg" alt="Floats" />
+                        </li>
+                    </ol>
+                    
+                    </md-content>
+                </md-tab>
+                <md-tab label="Ice Creams" flex>
+                    <md-content class="md-padding iceCream" ng-controller="iceCreamController">
+                        <h1 class="md-display-2">Home Made Speciality Ice Creams</h1>
+                        <div layout="row" flex>
+                            <div layout="column" flex>
+                                <h3>Pick Your Flavour(S) - Choose any one or two Flavours </h3>
+                                <md-input-container>
+                                    <label>Ice Cream Flavour 1</label>
+                                    <md-select ng-model="iceCream1">
+                                        <md-option ng-repeat="cream in iceCreams" value="{{cream}}">
+                                            {{cream}}
+                                        </md-option>
+                                    </md-select>
+                                </md-input-container>
+                                    <br />
+                                    <br />
+                                    <br />
+                                </div>
+                            <div layout="column" layout-align="center center" flex>
+                                <h3>Pick 1 or 2 Scoops </h3>
+                                <md-input-container>
+                                    <md-radio-group ng-model="scoops">
+                                        <md-radio-button value="1" ng-disabled="disableRadio1" class="md-primary">One Scoop</md-radio-button>
+                                        <md-radio-button value="2" ng-disabled="disableRadio"> Two Scoops </md-radio-button>
+                                    </md-radio-group>
+                                    <md-button class="md-raised md-warn" ng-click="addToCone()">Add to Cone</md-button>
+                                    
+                                </md-input-container>
+                               </div>
+                              </div>
+                        <div style="color: #ff0000" ng-show="disableRadio1 && disableRadio"> You selected the Max limit of 2 scoops per cone</div>
+                        <div ng-show="enableDiv">{{scoops}} Scoop(s) of {{iceCream1}} Added to Cone.</div>
+                        <br />
+                        <br />
+                        <h3>Pick Your Flavour(S)</h3>
+                        <md-input-container>
+                             <label>Waffle Cones</label>
+                                <md-select ng-model="cone" style="width: 200%">
+                                    <md-option ng-repeat="cone in cones" value="{{cone}}">
+                                        {{cone}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container> 
+                       
+                            <div>Your selection contains {{iceCreamtext}}</div>
+                            <br />
+                            <br />
+                            <h3>Price : $ 5.00 </h3>
+
+                            <br />
+                            <br />
+                            <div layout="row" layout-align="center center">
+                                <md-button class="md-raised md-primary" ng-disabled="!(cone && iceCream1 && scoops && enableDiv)" ng-click="showAlert($event); addiceCreamToCart();">Add to Cart</md-button>
+                                 </div>
+                    </md-content>
+                </md-tab>
+    <md-tab label="Milk Shakes" flex>
+        <md-content class="md-padding" flex ng-controller="shakesController">
+            <h1 class="md-display-2">Slurpyy Milk Shakes :)</h1>
+            <div layout="row" flex >
+                <div layout="column" flex>
+                    <h3>Pick Your Flavour </h3>
+                    <md-input-container>
+                        <label>Ice Cream</label>
+                        <md-select ng-model="shake_iceCream">
+                            <md-option ng-repeat="cream in iceCreams" value="{{cream}}">
+                                {{cream}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div layout="column"  flex>
+                    <h3>Choice of Milk </h3>
+                    <md-input-container>
+                        <md-radio-group ng-model="milk">
+                            <md-radio-button value="Skim" >Skim Milk</md-radio-button>
+                            <md-radio-button value="2% Reduced Fat" class="md-primary">2% Reduced Fat Milk</md-radio-button>
+                            <md-radio-button class="md-warn" value="Whole">Whole Milk</md-radio-button>
+                    </md-radio-group>
+                    </md-input-container>
+                </div>
+                
+            </div>
+            <h3>Discount Coupons</h3>
+            <md-input-container>
+                <label>Select Coupons</label>
+                <md-select ng-model="discount"style="width: 200%">
+                    <md-option ng-repeat="disc in discounts" value="{{disc}}">
+                        {{disc}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+
+            <div>Your selection contains <b>{{shake_iceCream}}</b> Ice Cream and <b>{{milk}}</b> Milk </div>
+            <br />
+            <br />
+            <h3>Price : {{price | currency}} <span ng-show="discount"> (Coupon - {{discount}} applied)</span></h3>
+
+            <br />
+            <br />
+            <div layout="row" layout-align="center center">
+                <md-button class="md-raised md-primary" ng-click="showAlert($event);addShakeToCart()" ng-disabled="!(shake_iceCream && milk)">Add to Cart</md-button>
+            </div>
+         </md-content>
+    </md-tab>
+    <md-tab label="Floats" flex>
+        <md-content class="md-padding"  ng-controller="floatsController" flex>
+            <h1 class="md-display-2">Kansas City's Favourite Floats Are Here</h1>
+            <div layout="row"  flex>
+                <div layout="column" flex>
+                    <h3>Pick Your Flavour(S)</h3>
+                    <md-input-container>
+                        <label>Ice Cream Flavour</label>
+                        <md-select ng-model="float_iceCream">
+                            <md-option ng-repeat="cream in iceCreams" value="{{cream}}">
+                                {{cream}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+
+                </div>
+                <div layout="column" layout-align="center center" flex>
+                    <h3>Pick number of Scoops </h3>
+                    <md-input-container>
+                        <label>Scoops</label>
+                        <input type="number" ng-model="float_Scoops" min="0"/>
+                    </md-input-container>
+                    <md-button class="md-raised md-warn" ng-click="addToFloat()">Add to Float</md-button>
+
+                </div>
+                <div layout="column" flex>
+                    <h3>Choice of Soda </h3>
+                    <md-input-container>
+                        <label>Soda</label>
+                        <md-select ng-model="soda">
+                            <md-option ng-repeat="soda in sodas" value="{{soda}}">
+                                {{soda}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+
+                </div>
+            </div>
+            <div ng-show="enableDiv">Added <b>{{float_Scoops}}</b> scoop(s) of <b>{{float_iceCream}}</b> Ice Cream and <b>{{soda}}</b> Soda to your Float.</div>
+            <br />
+            <br />
+            <h3>Discount Coupons</h3>
+            <md-input-container>
+                <label>Select Coupons</label>
+                <md-select ng-model="discount1" style="width: 200%">
+                    <md-option ng-repeat="disc in discounts" value="{{disc}}">
+                        {{disc}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+            <h3>Price : {{price_Float | currency}} <span ng-show="discount1"> (Coupon - {{discount1}} applied)</span></h3>
+            <br />
+            <br />
+            <div layout="row" layout-align="center center">
+                <md-button class="md-raised md-primary"  ng-click="showAlert($event);addFloatToCart()" ng-disabled="!(float_iceCream && soda && float_Scoops && enableDiv)">Add to Cart</md-button>
+            </div>
+        </md-content>
+
+    </md-tab>
+                
+                <md-tab flex label="CheckOut" class="chk" ng-disabled="disableCheckout">
+                    <md-content class="md-padding" ng-controller="placeOrderController" flex>
+                        <h1 ng-hide="disableOrder">Review and Place Order.</h1>
+                        <md-button class="md-raised md-primary" ng-hide="disableOrder" ng-click="reviewOrder()">Review Order</md-button>
+                        <h1 ng-show="disableOrder">Order Placed Successfully !!</h1>
+
+                        <h3>Your Order Contains: </h3>
+
+                        <ol>
+                            <li ng-repeat="order in Orders"><b>{{order.x}}</b> -- <b>{{order.price | currency}}</b></li>
+                        </ol>
+
+                        <div layout-align="right"> <b>Total: {{orderTotal | currency}}</b></div>
+
+                        <div layout="row" layout-align="center center" ng-hide="disableOrder">
+                            <md-button class="md-raised md-warn" ng-click="placeOrder()">Place Order</md-button>
+                        </div>
+                    </md-content>
+
+                </md-tab>
+    </md-tabs>
+    </md-content>
+    </div>
+</body>
+</html>
